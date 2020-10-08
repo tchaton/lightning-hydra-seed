@@ -35,6 +35,7 @@ jobs:
           source ${pythonEnv}/bin/activate
           python -m pip install --upgrade pip
           python -m pip install poetry
+          python -m poetry export -f requirements.txt -o requirements.txt --without-hashes
           sh scripts/clean_requirements.sh
           python -m pip install -r requirements.txt
         env:
