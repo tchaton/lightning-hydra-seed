@@ -1,6 +1,7 @@
 from typing import List, Optional
 import torch
 
+
 class AddFeatsByKeys(object):
     """This transform takes a list of attributes names and if allowed, add them to x
     Example:
@@ -59,8 +60,12 @@ class AddFeatsByKeys(object):
             stricts = [True for _ in range(num_names)]
 
         transforms = [
-            AddFeatByKey(add_to_x, feat_name, input_nc_feat=input_nc_feat, strict=strict)
-            for add_to_x, feat_name, input_nc_feat, strict in zip(list_add_to_x, feat_names, input_nc_feats, stricts)
+            AddFeatByKey(
+                add_to_x, feat_name, input_nc_feat=input_nc_feat, strict=strict
+            )
+            for add_to_x, feat_name, input_nc_feat, strict in zip(
+                list_add_to_x, feat_names, input_nc_feats, stricts
+            )
         ]
 
         self.transform = Compose(transforms)
@@ -107,14 +112,20 @@ class AddFeatByKey(object):
         feat = getattr(data, self._feat_name, None)
         if feat is None:
             if self._strict:
-                raise Exception("Data should contain the attribute {}".format(self._feat_name))
+                raise Exception(
+                    "Data should contain the attribute {}".format(self._feat_name)
+                )
             else:
                 return data
         else:
             if self._input_nc_feat:
                 feat_dim = 1 if feat.dim() == 1 else feat.shape[-1]
                 if self._input_nc_feat != feat_dim and self._strict:
-                    raise Exception("The shape of feat: {} doesn t match {}".format(feat.shape, self._input_nc_feat))
+                    raise Exception(
+                        "The shape of feat: {} doesn t match {}".format(
+                            feat.shape, self._input_nc_feat
+                        )
+                    )
             x = getattr(data, "x", None)
             if x is None:
                 if self._strict and data.pos.shape[0] != feat.shape[0]:
@@ -141,6 +152,7 @@ class AddFeatByKey(object):
         return "{}(add_to_x: {}, feat_name: {}, strict: {})".format(
             self.__class__.__name__, self._add_to_x, self._feat_name, self._strict
         )
+
 
 def normalized_cut_2d(edge_index, pos):
     row, col = edge_index

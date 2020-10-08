@@ -25,7 +25,9 @@ def train(cfg):
 
     model, data_module = initialize_task(cfg)
 
-    loggers: List[pl.callbacks.Callback] = initialize_loggers(cfg)#, **model.config, **data_module.config
+    loggers: List[pl.callbacks.Callback] = initialize_loggers(
+        cfg
+    )  # , **model.config, **data_module.config
 
     gpus = list(range(torch.cuda.device_count())) if torch.cuda.is_available() else None
 
@@ -36,6 +38,7 @@ def train(cfg):
 
     trainer.fit(model, data_module)
     log.info("Training complete.")
+
 
 @hydra.main(config_path="conf", config_name="config")
 def main(cfg: DictConfig) -> None:

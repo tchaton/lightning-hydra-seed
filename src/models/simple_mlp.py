@@ -1,7 +1,4 @@
-import numpy as np
-import torch
 from torch import nn
-from torch.nn import functional as F
 from src.core.base_model import BaseModel
 
 
@@ -20,7 +17,9 @@ def MLP(channels, activation=nn.LeakyReLU(0.2), bn_momentum=0.1, bias=True):
 
 
 class SimpleMLP(BaseModel):
-    def __init__(self, *args, num_features: int = None, num_classes: int = None, **kwargs):
+    def __init__(
+        self, *args, num_features: int = None, num_classes: int = None, **kwargs
+    ):
         super(SimpleMLP, self).__init__(*args, **kwargs)
 
         self.save_hyperparameters()

@@ -1,5 +1,6 @@
 from hydra.utils import get_class
 
+
 class BaseTasksMixin:
     def __init__(self, *args, **kwargs):
 

@@ -1,13 +1,8 @@
-import os.path as osp
 from omegaconf import OmegaConf, DictConfig, ListConfig
 from functools import partial
 from hydra.utils import instantiate, get_class
-import torch
-from torch import nn
-from torch.nn import Module
-from torch.nn import Sequential, ModuleDict, ModuleList
-import torch.nn.functional as F
 from pytorch_lightning import LightningModule
+
 
 def delete_key(d, key):
     try:
@@ -28,8 +23,7 @@ class BaseModel(LightningModule):
         if len(self._optimizers_conf) == 1:
             self._optimizer_name = self._optimizers_conf[0]["name"]
         self._init_optim = partial(
-            self._init_optim,
-            optimizers_conf=self._optimizers_conf,
+            self._init_optim, optimizers_conf=self._optimizers_conf,
         )
 
     @property
@@ -117,4 +111,3 @@ class BaseModel(LightningModule):
         for key, value in kwargs.items():
             kwargs[key] = _sanetize_kwargs(value)
         return kwargs
-

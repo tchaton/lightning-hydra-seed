@@ -28,5 +28,9 @@ RUN python3 -m pip install -U pip \
 
 WORKDIR /app
 
-COPY requirements.txt .
+COPY pyproject.toml .
+COPY poetry.lock .
+COPY scripts/clean_requirements.sh .
+RUN $PYTHON -m poetry export -f requirements.txt -o requirements.txt --without-hashes
+RUN sh clean_requirements.sh
 RUN $PYTHON -m pip install -r requirements.txt && rm -rf /root/.cache
