@@ -1,0 +1,3 @@
+# @package _group_
+name: 'categorical_classification'
+_target_: src.tasks.classification.CategoricalClassificationStepsMixin

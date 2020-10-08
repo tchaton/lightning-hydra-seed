@@ -1,0 +1,18 @@
+# @package _group_
+name: 'mnist'
+_target_: src.datasets.${dataset.name}.MNISTTDataset
+val_split: 0.3
+normalize: True
+train_transform:
+  - activate: True
+    _target_: torchvision.transforms.ToTensor
+  - activate: ${dataset.normalize}
+    _target_: torchvision.transforms.Normalize
+    mean: 0.5
+    std: 0.5
+
+val_transform: ${dataset.train_transform}
+test_transform: ${dataset.train_transform}
+
+authorized_tasks:
+  - _target_: src.tasks.classification.CategoricalClassificationStepsMixin

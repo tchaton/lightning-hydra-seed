@@ -1,0 +1,5 @@
+# @package _group_
+name: 'simple_mlp'
+_target_: src.models.${model.name}.SimpleMLP
+authorized_tasks:
+  - _target_: src.tasks.classification.CategoricalClassificationStepsMixin
