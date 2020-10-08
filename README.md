@@ -35,3 +35,7 @@ python train.py task=categorical_classification model=simple_mlp dataset=mnist l
 ```python
 python train.py task=categorical_classification model=simple_mlp dataset=mnist loggers=thomas-chaton log=False notes="My Simple MLP with Adam" notes="My Simple MLP with Adam" name="My Simple MLP with Adam" jit=False
 ```
+
+### Register your project on [codecov](https://codecov.io)
+
+Set your secret key in settings with `CODECOV_TOKEN`
