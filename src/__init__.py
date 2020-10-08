@@ -7,10 +7,12 @@ from pytorch_lightning.utilities.model_utils import is_overridden
 from src.core.base_dataset import BaseDataset
 from src.core.base_model import BaseModel
 
-def custom_instantiate(cfg):
-    cfg = OmegaConf.to_container(cfg, resolve=True)
-    t_cls = get_class(cfg["_target_"])
-    return t_cls(**cfg)
+def custom_instantiate(dataset_cfg, task_cfg):
+    dataset_dict = OmegaConf.to_container(dataset_cfg, resolve=True)
+    task_dict = OmegaConf.to_container(task_cfg, resolve=True)
+    dataset_dict["task_config"] = task_dict
+    t_cls = get_class(dataset_dict["_target_"])
+    return t_cls(**dataset_dict)
 
 def attach_step_and_epoch_functions(model, datamodule):
     datamodule.forward = model.forward
@@ -25,12 +27,10 @@ def check_task_possible(task, cfg):
 
 def initialize_task(cfg: DictConfig):
     # Extract task mixin
-    task_target = cfg.task._target_
-    check_task_possible(task_target, cfg.model.authorized_tasks) 
-    check_task_possible(task_target, cfg.dataset.authorized_tasks) 
+    check_task_possible(cfg.task._target_, cfg.model.authorized_tasks) 
+    check_task_possible(cfg.task._target_, cfg.dataset.authorized_tasks) 
 
-    cfg.dataset.task_target = task_target
-    data_module: BaseDataset = custom_instantiate(cfg.dataset)
+    data_module: BaseDataset = custom_instantiate(cfg.dataset, cfg.task)
     model: BaseModel = instantiate(cfg.model, **data_module.hyper_parameters, optimizers=cfg.optimizers.optimizers)
 
     attach_step_and_epoch_functions(model, data_module)
