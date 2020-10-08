@@ -1,5 +1,7 @@
 # Pytorch Lightning seed project with hydra
 
+[![codecov](https://codecov.io/gh/tchaton/lightning-hydra-seed/branch/master/graph/badge.svg)](https://codecov.io/gh/tchaton/lightning-hydra-seed) [![Actions Status](https://github.com/tchaton/lightning-hydra-seed/workflows/unittest/badge.svg)](https://github.com/tchaton/lightning-hydra-seed/actions)
+
 ### Setup
 
 ```
